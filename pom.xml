@@ -59,6 +59,7 @@
 
     <modules>
         <module>ce-client</module>
+        <module>ce-idp</module>
     </modules>
 
 </project>

@@ -8,3 +8,6 @@ clean: ## Clean
 
 start-client : clean ## Start App
 	./mvnw -pl ce-client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
+
+start-idp: clean ## Start IdP
+	./mvnw -pl idp spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
