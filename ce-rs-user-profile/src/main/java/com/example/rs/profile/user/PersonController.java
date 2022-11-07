@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonController {
 
-    @GetMapping("/person/{id}")
-    public Person get(@PathVariable Long id) {
-        var person = new Person();
+    @GetMapping("/user/{id}")
+    public User get(@PathVariable Long id) {
+        var person = new User();
         person.setId(id);
         return person;
     }
 
     @PreAuthorize("hasAuthority('SCOPE_profile')")
-    @GetMapping("/secure/person/{id}")
-    public Person secureGet(@PathVariable Long id) {
+    @GetMapping("/secure/user/{id}")
+    public User secureGet(@PathVariable Long id) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        var person = new Person();
+        var person = new User();
         person.setId(id);
         person.setFirstName("322");
         return person;
