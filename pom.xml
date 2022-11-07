@@ -54,6 +54,7 @@
     <modules>
         <module>ce-client</module>
         <module>ce-idp</module>
+        <module>ce-rs-user-profile</module>
     </modules>
 
 </project>
