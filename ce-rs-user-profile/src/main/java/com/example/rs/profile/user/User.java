@@ -1,4 +1,4 @@
-package com.example.rs.profile.person;
+package com.example.rs.profile.user;
 
 import lombok.Getter;
 import lombok.Setter;

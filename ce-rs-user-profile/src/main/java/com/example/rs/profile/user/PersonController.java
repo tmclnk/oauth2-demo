@@ -1,4 +1,4 @@
-package com.example.rs.profile.person;
+package com.example.rs.profile.user;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
