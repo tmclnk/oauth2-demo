@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Just dump auth data as JSON.
  */
 @RestController
-public class Controller {
+public class OAuthController {
     @GetMapping("/oidc")
     public OidcUser getOidcUserPrincipal(@AuthenticationPrincipal OidcUser principal) {
         return principal;
