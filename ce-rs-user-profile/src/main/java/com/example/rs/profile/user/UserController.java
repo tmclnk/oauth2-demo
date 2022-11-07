@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public User get(@PathVariable Long id) {
         var person = new User();
         person.setId(id);
@@ -18,7 +18,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('SCOPE_profile')")
-    @GetMapping("/secure/user/{id}")
+    @GetMapping("/secure/users/{id}")
     public User secureGet(@PathVariable Long id) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         var person = new User();
