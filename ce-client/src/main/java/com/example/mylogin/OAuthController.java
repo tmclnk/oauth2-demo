@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * Just dump auth data as JSON.
@@ -23,8 +24,9 @@ public class OAuthController {
     }
 
     @GetMapping("/")
-    public OAuth2User index(@AuthenticationPrincipal OAuth2User principal) {
-        return principal;
+    public RedirectView index(@AuthenticationPrincipal OAuth2User principal) {
+        return new RedirectView("/person");
+//        return principal;
     }
 
 }
