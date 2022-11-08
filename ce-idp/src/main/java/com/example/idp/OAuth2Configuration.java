@@ -18,44 +18,17 @@ public class OAuth2Configuration {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http
-                .oauth2Client();
-
+        http.oauth2Client();
         return http.build();
     }
 
     @Bean
     public WebClient webClient(ReactiveClientRegistrationRepository repository) {
         // see https://github.com/spring-projects/spring-security/issues/11735
-//        var registration = repository.findByRegistrationId("cloudentity").block();
         var service = new InMemoryReactiveOAuth2AuthorizedClientService(repository);
         var authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(repository, service);
         var oauthFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
         oauthFilter.setDefaultClientRegistrationId("cloudentity");
         return WebClient.builder().filter(oauthFilter).build();
-
-//        InMemoryReactiveOAuth2AuthorizedClientService(
     }
-
-//    @Bean
-//    WebClient webClient(ReactiveOAuth2AuthorizedClientManager authorizedClientManager) {
-//        var oauth2Client = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-//        return WebClient.builder()
-//                .filter(oauth2Client)
-//                .build();
-//    }
-//
-//    @Bean
-//    public ReactiveOAuth2AuthorizedClientManager authorizedClientManager(
-//            ReactiveClientRegistrationRepository clientRegistrationRepository,
-//            ReactiveOAuth2AuthorizedClientService authorizedClientService) {
-//        var clientProvider = ReactiveOAuth2AuthorizedClientProviderBuilder.builder()
-//                .clientCredentials()
-//                .refreshToken()
-//                .build();
-//
-//        AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService);
-//        authorizedClientManager.setAuthorizedClientProvider(clientProvider);
-//        return authorizedClientManager;
-//    }
 }
