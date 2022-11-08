@@ -3,16 +3,20 @@ package com.example.idp.web;
 import com.example.idp.cloudentity.CloudEntityClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Presents a very basic login form which will post back to
@@ -36,26 +40,26 @@ public class LoginController {
      * a form-backing bean so we can POST them to CE's "/accept" url.
      */
     @GetMapping
-    public ModelAndView onGet(@RequestParam("login_state") String loginState, @RequestParam("login_id") String loginId) {
+    public String onGet(final Model model, @RequestParam("login_state") String loginState, @RequestParam("login_id") String loginId) {
         // login_state and login_id come from CloudEntity and need to be passed along,
         // so just stuff them into a bean
-        log.info("Received login_id={}",  loginId);
+        log.info("Received login_id={}", loginId);
         log.info("Received login_state={}", loginState);
         var loginCommand = new LoginCommand();
         loginCommand.setUsername("demo");
         loginCommand.setLoginState(loginState);
         loginCommand.setLoginId(loginId);
 
-        var map = new HashMap<String, Object>();
-        map.put("loginCommand", loginCommand);
-        return new ModelAndView("login", map);
+        model.addAttribute("loginCommand", loginCommand);
+        return "mylogin";
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public RedirectView onPost(LoginCommand loginCommand) {
-        log.warn("ignoring password, we don't care");
+    public Mono<Void> onPost(LoginCommand loginCommand, ServerWebExchange exchange) throws URISyntaxException, IOException {
         var redirectUrl = cloudEntityClient.accept(loginCommand.getUsername(), loginCommand);
-        return new RedirectView(redirectUrl);
+        var response = exchange.getResponse();
+        response.setStatusCode(HttpStatus.FOUND);
+        response.getHeaders().setLocation(URI.create(redirectUrl));
+        return Mono.empty();
     }
-
 }
