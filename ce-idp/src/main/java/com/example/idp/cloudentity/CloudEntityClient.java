@@ -1,8 +1,6 @@
 package com.example.idp.cloudentity;
 
 import com.example.idp.web.LoginCommand;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
+import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -43,19 +42,14 @@ public class CloudEntityClient {
      *
      * @return a redirect url (presumably to a consent screen)
      */
-    public String accept(String subject, LoginCommand command) {
+    public Mono<URI> accept(String subject, LoginCommand command) {
         var accept = new AcceptRequest(subject, command.getLoginState());
 
         // decorate with custom attributes
         accept.getAuthenticationContext().putAll(userAttributeService.apply(command));
 
-        // create our own netty HttpClient so we have access to tracing the payload
-        var httpClient = HttpClient.create().wiretap(true);
-        log.trace(toJSON(accept));
-
         var acceptURI = cloudEntityProperties.acceptURI(command.getLoginId());
-        log.trace("Accept {}", acceptURI);
-        var result = webClient
+        return webClient
                 .post()
                 .uri(acceptURI)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -64,37 +58,7 @@ public class CloudEntityClient {
                 .retrieve()
                 .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(String.class).map(Exception::new))
                 .bodyToMono(AcceptResponse.class)
-                .block();
-        assert result != null && result.getRedirectTo() != null : "missing 'redirect_to' in response";
-        return result.getRedirectTo();
-    }
-
-    /**
-     * Fetches a bearer token from token endpoint using client-id and client-secret.
-     *
-     * @throws RuntimeException if there's an error response from the token service, or if the accessToken
-     *                          is null or blank.
-     */
-//    private Mono<TokenResponse> getAccessToken() {
-//        var url = String.format("%s/oauth2/token", authServer);
-//        var secret = Base64.getEncoder().encodeToString(String.format("%s:%s", clientId, clientSecret).getBytes());
-//        return WebClient.create().method(HttpMethod.POST)
-//                .uri(url)
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .header("Authorization", String.format("Basic %s", secret))
-//                .body(BodyInserters.fromFormData("grant_type", "client_credentials"))
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .onStatus(HttpStatus::isError, resp -> resp.bodyToMono(String.class).map(Exception::new))
-//                .bodyToMono(TokenResponse.class);
-//    }
-    @SuppressWarnings("java:S112")
-    private String toJSON(Object o) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(o);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+                .map(AcceptResponse::getRedirectTo)
+                .map(URI::create);
     }
 }
