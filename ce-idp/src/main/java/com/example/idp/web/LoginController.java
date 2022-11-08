@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * Presents a very basic login form which will post back to
@@ -55,7 +53,7 @@ public class LoginController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public Mono<Void> onPost(LoginCommand loginCommand, ServerWebExchange exchange) throws URISyntaxException, IOException {
+    public Mono<Void> onPost(LoginCommand loginCommand, ServerWebExchange exchange) {
         var redirectUrl = cloudEntityClient.accept(loginCommand.getUsername(), loginCommand);
         var response = exchange.getResponse();
         response.setStatusCode(HttpStatus.FOUND);
