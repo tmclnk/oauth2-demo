@@ -1,9 +1,7 @@
 package com.example.idp.cloudentity;
 
 import com.example.idp.web.LoginCommand;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -19,25 +17,13 @@ import java.util.function.Function;
 @Component
 @Slf4j
 public class CloudEntityClient {
+    private final CloudEntityProperties cloudEntityProperties;
+    private final WebClient webClient;
 
-    @Autowired
-    @Setter
-    private CloudEntityProperties cloudEntityProperties;
-
-    @Autowired
-    @Setter
-    private WebClient webClient;
-
-    @Setter
-    private Function<LoginCommand, Map<String, Object>> userAttributeService = loginCommand -> {
-        var map = new HashMap<String, Object>();
-        map.put("my_attribute", "HELLO WORLD!!!!!!!!!!!");
-
-        for (int i = 0; i < 10; i++) {
-            map.put(String.format("my_attribute%d", i), String.format("i am my attribute %d", i));
-        }
-        return map;
-    };
+    public CloudEntityClient(CloudEntityProperties cloudEntityProperties, WebClient webClient) {
+        this.cloudEntityProperties = cloudEntityProperties;
+        this.webClient = webClient;
+    }
 
     /**
      * POST to the CloudEntity "/accept" url.
@@ -61,4 +47,14 @@ public class CloudEntityClient {
                 .map(AcceptResponse::getRedirectTo)
                 .map(URI::create);
     }
+
+    private Function<LoginCommand, Map<String, Object>> userAttributeService = loginCommand -> {
+        var map = new HashMap<String, Object>();
+        map.put("my_attribute", "HELLO WORLD!!!!!!!!!!!");
+
+        for (int i = 0; i < 10; i++) {
+            map.put(String.format("my_attribute%d", i), String.format("i am my attribute %d", i));
+        }
+        return map;
+    };
 }
