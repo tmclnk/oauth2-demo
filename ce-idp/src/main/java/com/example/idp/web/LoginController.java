@@ -8,11 +8,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Mono;
+
+import java.beans.PropertyEditorSupport;
 
 /**
  * Presents a very basic login form which will post back to
@@ -30,6 +34,13 @@ public class LoginController {
         this.cloudEntityClient = cloudEntityClient;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LoginCommand.class, new PropertyEditorSupport() {
+
+        });
+    }
+
     /**
      * Shows a login form. We expect this form to be a 302 from CloudEntity which
      * has login_state and login_id params. We stash login_state and login_id into
@@ -39,13 +50,9 @@ public class LoginController {
     public String onGet(final Model model, @RequestParam("login_state") String loginState, @RequestParam("login_id") String loginId) {
         // login_state and login_id come from CloudEntity and need to be passed along,
         // so just stuff them into a bean
-        log.info("Received login_id={}", loginId);
-        log.info("Received login_state={}", loginState);
         var loginCommand = new LoginCommand();
-        loginCommand.setUsername("demo");
         loginCommand.setLoginState(loginState);
         loginCommand.setLoginId(loginId);
-
         model.addAttribute("loginCommand", loginCommand);
         return "login_form.html";
     }
