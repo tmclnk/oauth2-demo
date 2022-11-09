@@ -20,14 +20,7 @@ http://localhost:8888/login
 Create a `src/main/resources/application.properties` (which is .gitignore'd).
 
 ```properties
-# Replace {{tid}} with your Tenant ID.
-# Replace {{wsid}} with your Workspace Id, e.g. "demo".
-cloudentity.issuer-uri=https://{{tid}}.us.authz.cloudentity.io/api/system/{{tid}}
-cloudentity.auth-server=https://{{tid}}.us.authz.cloudentity.io/{{tid}}/{{wsid}}
 
-# Use the client-id and client-secret from the Custom IdP
-cloudentity.client-id=
-cloudentity.client-secret=
 ```
 
 ## Running
@@ -39,8 +32,15 @@ We're expecting Java 17.
 ```
 
 You'll need a client app to perform a redirect to get you valid
-`login_id` and `login_state` values on the login page. The default demo app 
+`login_id` and `login_state` values on the login page. The default demo app
 in the workspace should suffice.
+
+## Consent Screen
+
+You'll need to map an attribute into the "Name" field in order to get sane output on the
+Consent screen.
+
+![Consent Screen](./docs/consent.png)
 
 ## Links
 
