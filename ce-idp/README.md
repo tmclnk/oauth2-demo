@@ -5,6 +5,38 @@ auth flow using CloudEntity.
 
 ![login screen](./docs/login.png)
 
+## Simplified Flow
+
+```puml
+@startuml
+actor "Client" as client 
+participant "CloudEntity Server" as ce
+participant "My IdP" as idp
+client -> ce: Start Flow
+ce -> idp: Login Page
+idp -> idp: Authenticate
+alt Valid Credentials
+    idp -> ce: /accept
+else Invalid Credentials
+    idp -> ce: /reject
+end
+ce->ce: Scope Grant
+ce-->client: Token + redirect_url 
+@enduml
+
+```
+
+A user in a browser will experience this as:
+
+1. Visit an app, get redirected to CE Login Screen.
+2. Pick login method (e.g. Login With Google, Facebook, or My IdP).
+3. Enter credentials on login screen.
+4. Get redirected back to CloudEntity.
+5. Pick [Consents](#consent).
+6. Get redirected back to original app.
+
+See [Custom IdP] for details.
+
 ## Configuration
 
 ### Register Custom IdP in ACP
@@ -37,6 +69,7 @@ in the workspace should suffice.
 
 ## Consent Screen
 
+<a name="consent"></a>
 You'll need to map an attribute into the "Name" field in order to get sane output on the
 Consent screen.
 
@@ -44,4 +77,6 @@ Consent screen.
 
 ## Links
 
-- [HOWTO Create Custom IDP in CloudEntity](https://cloudentity.com/developers/howtos/identities/custom-idp/)
+- [Custom IdP]
+
+[Custom IdP]: (https://cloudentity.com/developers/howtos/identities/custom-idp/)
