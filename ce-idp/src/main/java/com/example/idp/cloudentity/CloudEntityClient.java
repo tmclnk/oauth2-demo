@@ -41,8 +41,6 @@ public class CloudEntityClient {
 
     /**
      * POST to the CloudEntity "/accept" url.
-     * Uses a Bearer token obtained using client_credentials grant.
-     * There's no refresh token here, we're fetching a new Bearer token every time.
      *
      * @return a redirect url (presumably to a consent screen)
      */
