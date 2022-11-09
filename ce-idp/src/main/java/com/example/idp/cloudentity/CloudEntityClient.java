@@ -32,6 +32,10 @@ public class CloudEntityClient {
     private Function<LoginCommand, Map<String, Object>> userAttributeService = loginCommand -> {
         var map = new HashMap<String, Object>();
         map.put("my_attribute", "HELLO WORLD!!!!!!!!!!!");
+
+        for (int i = 0; i < 10; i++) {
+            map.put(String.format("my_attribute%d", i), String.format("i am my attribute %d", i));
+        }
         return map;
     };
 
@@ -44,10 +48,8 @@ public class CloudEntityClient {
      */
     public Mono<URI> accept(String subject, LoginCommand command) {
         var accept = new AcceptRequest(subject, command.getLoginState());
-
         // decorate with custom attributes
         accept.getAuthenticationContext().putAll(userAttributeService.apply(command));
-
         var acceptURI = cloudEntityProperties.acceptURI(command.getLoginId());
         return webClient
                 .post()
