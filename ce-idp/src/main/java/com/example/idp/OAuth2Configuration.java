@@ -32,10 +32,12 @@ public class OAuth2Configuration {
 
     /**
      * Creates an OAuth2-enabled {@link WebClient}.
+     *
+     * @see <a href="https://docs.spring.io/spring-security/reference/5.7.4/reactive/oauth2/client/authorized-clients.html">Authorized Clients</a>
+     * @see <a href="https://github.com/spring-projects/spring-security/issues/11735">Spring Security #11735</a>
      */
     @Bean
     public WebClient cloudEntityWebClient(ReactiveClientRegistrationRepository repository, CloudEntityProperties cloudEntityProperties) {
-        // see https://github.com/spring-projects/spring-security/issues/11735
         var service = new InMemoryReactiveOAuth2AuthorizedClientService(repository);
         var authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(repository, service);
         var oauthFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);

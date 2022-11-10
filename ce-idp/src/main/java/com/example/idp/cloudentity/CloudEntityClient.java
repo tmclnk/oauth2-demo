@@ -4,6 +4,7 @@ import com.example.idp.web.LoginCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,6 +18,11 @@ import java.util.function.Function;
 @Component
 @Slf4j
 public class CloudEntityClient {
+    /**
+     * The oauth2 client registration id. Don't change this unless you are ready to change the
+     * corresponding configuration properties.
+     */
+    private static final String CLIENT_REGISTRATION_ID = "cloudentity";
     private final CloudEntityProperties cloudEntityProperties;
     private final WebClient webClient;
 
@@ -38,6 +44,7 @@ public class CloudEntityClient {
         return webClient
                 .post()
                 .uri(acceptURI)
+                .attributes(ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId(CLIENT_REGISTRATION_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(accept))

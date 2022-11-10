@@ -11,6 +11,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * JSON Payload passed to CloudEntity "/accept" endpoint.
+ */
 @Getter
 @Setter
 class AcceptRequest {
