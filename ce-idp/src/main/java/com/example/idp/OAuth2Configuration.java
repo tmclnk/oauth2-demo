@@ -1,5 +1,6 @@
 package com.example.idp;
 
+import com.example.idp.cloudentity.CloudEntityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,15 +15,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
 import static io.netty.handler.logging.LogLevel.DEBUG;
-import static reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL;
-
+import static reactor.netty.transport.logging.AdvancedByteBufFormat.SIMPLE;
 
 @Configuration
 @Slf4j
 public class OAuth2Configuration {
 
     /**
-     * Configuration of OAuth2 Client.
+     * Wire OAuth handling into http processing.
      */
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -30,17 +30,20 @@ public class OAuth2Configuration {
         return http.build();
     }
 
+    /**
+     * Creates an OAuth2-enabled {@link WebClient}.
+     */
     @Bean
-    public WebClient cloudEntityWebClient(ReactiveClientRegistrationRepository repository) {
+    public WebClient cloudEntityWebClient(ReactiveClientRegistrationRepository repository, CloudEntityProperties cloudEntityProperties) {
         // see https://github.com/spring-projects/spring-security/issues/11735
         var service = new InMemoryReactiveOAuth2AuthorizedClientService(repository);
         var authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(repository, service);
         var oauthFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-        oauthFilter.setDefaultClientRegistrationId("cloudentity");
 
+        // configure client so we can dump payloads to the logs
         var httpClient = HttpClient
                 .create()
-                .wiretap("reactor.netty.http.client.HttpClient", DEBUG, TEXTUAL);
+                .wiretap("reactor.netty.http.client.HttpClient", DEBUG, SIMPLE);
         return WebClient
                 .builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
