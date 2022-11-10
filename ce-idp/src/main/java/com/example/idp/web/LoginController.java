@@ -36,14 +36,14 @@ public class LoginController {
      * a form-backing bean so we can POST them to CE's "/accept" url.
      */
     @GetMapping
-    public String onGet(final Model model, @RequestParam("login_state") String loginState, @RequestParam("login_id") String loginId) {
+    public Mono<String> onGet(final Model model, @RequestParam("login_state") String loginState, @RequestParam("login_id") String loginId) {
         // login_state and login_id come from CloudEntity and need to be passed along,
         // so just stuff them into a bean
         var loginCommand = new LoginCommand();
         loginCommand.setLoginState(loginState);
         loginCommand.setLoginId(loginId);
         model.addAttribute("loginCommand", loginCommand);
-        return "login_form.html";
+        return Mono.just("login_form.html");
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
