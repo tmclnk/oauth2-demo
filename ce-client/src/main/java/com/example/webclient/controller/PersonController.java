@@ -1,6 +1,6 @@
-package com.example.mylogin.controller;
+package com.example.webclient.controller;
 
-import com.example.mylogin.UserServiceProperties;
+import com.example.webclient.UserServiceProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;

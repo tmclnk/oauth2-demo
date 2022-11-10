@@ -1,4 +1,4 @@
-package com.example.mylogin;
+package com.example.webclient;
 
 import lombok.Getter;
 import lombok.Setter;

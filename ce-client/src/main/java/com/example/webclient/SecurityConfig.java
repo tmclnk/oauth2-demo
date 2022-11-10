@@ -1,4 +1,4 @@
-package com.example.mylogin;
+package com.example.webclient;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
