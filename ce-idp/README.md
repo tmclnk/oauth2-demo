@@ -49,15 +49,30 @@ http://localhost:8888/login
 
 ### application.properties
 
-Create a `src/main/resources/application.properties` (which is .gitignore'd).
+Create a `src/main/resources/application.properties` (which is .gitignore'd to keep you from checking it in).
 
 ```properties
-
+## http server port
+server.port=8080
+## Tenant ID can be recognized from your tenant's url, e.g. {{tenant-id}}.us.authz.cloudentity.io
+cloudentity.tenant-id=
+# Keep cloudentity.registration-id set to "cloudentity" unless you know what you are doing.
+# and will be tied to your _system_ workspace.
+spring.security.oauth2.client.registration.cloudentity.client-id=
+spring.security.oauth2.client.registration.cloudentity.client-secret=
+# Keep provider set to "cloudentity" unless you know what you are doing.
+spring.security.oauth2.client.registration.cloudentity.provider=cloudentity
+spring.security.oauth2.client.registration.cloudentity.client-authentication-method=client_secret_basic
+spring.security.oauth2.client.registration.cloudentity.authorization-grant-type=client_credentials
+spring.security.oauth2.client.provider.cloudentity.issuer-uri=https://${cloudentity.tenant-id}.us.authz.cloudentity.io/${cloudentity.tenant-id}/system
+## Logging
+logging.level.reactor.netty.http.client=debug
+logging.level.com.example=trace
 ```
 
 ## Running
 
-We're expecting Java 17.
+We're expecting Java 17 (a capricious choice, you can easily make this work in Java 8).
 
 ```shell
 ./mvnw spring-boot:run
