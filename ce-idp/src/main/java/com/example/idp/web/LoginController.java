@@ -8,15 +8,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Mono;
-
-import java.beans.PropertyEditorSupport;
 
 /**
  * Presents a very basic login form which will post back to
@@ -32,13 +28,6 @@ public class LoginController {
     @Autowired
     public LoginController(CloudEntityClient cloudEntityClient) {
         this.cloudEntityClient = cloudEntityClient;
-    }
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(LoginCommand.class, new PropertyEditorSupport() {
-
-        });
     }
 
     /**
