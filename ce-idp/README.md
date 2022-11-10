@@ -93,5 +93,7 @@ Consent screen.
 ## Links
 
 - [Custom IdP]
+- [Spring WebFlux](https://docs.spring.io/spring-framework/docs/5.3.23/reference/html/web-reactive.html#spring-webflux)
+- [Authorized Clients - Reactive](https://docs.spring.io/spring-security/reference/5.7.4/reactive/oauth2/client/authorized-clients.html)
 
 [Custom IdP]: (https://cloudentity.com/developers/howtos/identities/custom-idp/)
