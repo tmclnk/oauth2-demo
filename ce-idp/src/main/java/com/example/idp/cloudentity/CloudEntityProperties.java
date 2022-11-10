@@ -14,7 +14,7 @@ import java.util.Map;
 public class CloudEntityProperties {
     @Setter
     @NotBlank
-    String tenantId;
+    private String tenantId;
 
     public URI acceptURI(String loginId) {
         return UriComponentsBuilder.newInstance()
