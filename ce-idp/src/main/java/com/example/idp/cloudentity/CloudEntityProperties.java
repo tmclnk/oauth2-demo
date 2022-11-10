@@ -9,6 +9,9 @@ import javax.validation.constraints.NotBlank;
 import java.net.URI;
 import java.util.Map;
 
+/**
+ * Encapsulates CloudEntity configuration.
+ */
 @Validated
 @ConfigurationProperties(prefix = "cloudentity")
 public class CloudEntityProperties {
