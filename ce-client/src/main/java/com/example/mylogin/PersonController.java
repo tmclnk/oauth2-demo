@@ -15,12 +15,12 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-public class ClientController {
+public class PersonController {
 
     private final WebClient oauthWebClient;
 
     @Autowired
-    public ClientController(WebClient webClient) {
+    public PersonController(WebClient webClient) {
         this.oauthWebClient = webClient;
     }
 
