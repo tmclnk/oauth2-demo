@@ -1,6 +1,6 @@
 # OIDC Login App
 
-This is an app that redirects out to Cloudentity for login, 
+This is an app that redirects out to Cloudentity for login,
 then shoves the resulting info into the HTTP Session.
 
 ## Configuring the ACP
@@ -46,6 +46,8 @@ server.forward-headers-strategy=native
 
 ## Links
 
+* [Spring WebFlux Authorized Clients](https://docs.spring.io/spring-security/reference/5.7.4/reactive/oauth2/client/index.html)
+* [Spring WebFlux Security](https://docs.spring.io/spring-security/reference/5.7.4/reactive/configuration/webflux.html)
 * [OAuth Grant Explainer](https://alexbilbie.com/guide-to-oauth-2-grants/)
 
 [localhost:8080]: (https://localhost:8080)
