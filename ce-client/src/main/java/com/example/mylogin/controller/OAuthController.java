@@ -1,4 +1,4 @@
-package com.example.mylogin;
+package com.example.mylogin.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
