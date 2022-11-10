@@ -7,7 +7,6 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientProviderBuilder;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
@@ -16,26 +15,14 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
-        Set<String> myScopes = new HashSet<>();
-        myScopes.add("email");
-        myScopes.add("oidc");
-
-        OidcUserService userService = new OidcUserService();
-        userService.setAccessibleScopes(myScopes);
-
+    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
         http.csrf().disable()
                 .authorizeExchange(e -> e.anyExchange().authenticated())
                 .oauth2Login(customizer -> {
-                    // see https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html
-//                    customizer.userInfoEndpoint().oidcUserService(userService);
-//                    customizer.successHandler(new RefererRedirectionAuthenticationSuccessHandler());
+                    // see https://docs.spring.io/spring-security/reference/5.7.5/reactive/oauth2/login/core.html
                 })
                 .oauth2Client()
                 .and().logout();
@@ -84,29 +71,4 @@ public class SecurityConfig {
 
         return authorizedClientManager;
     }
-//    @Bean
-//    public OAuth2AuthorizedClientManager authorizedClientManager(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientRepository authorizedClientRepository) {
-//        var authorizedClientProvider =
-//                OAuth2AuthorizedClientProviderBuilder.builder()
-//                        .authorizationCode()
-//                        .refreshToken()
-//                        .clientCredentials()
-//                        .password()
-//                        .build();
-//
-//        var authorizedClientManager = new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientRepository);
-//        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-//
-//        return authorizedClientManager;
-//    }
-
-//    static class RefererRedirectionAuthenticationSuccessHandler
-//            extends SimpleUrlAuthenticationSuccessHandler
-//            implements AuthenticationSuccessHandler {
-//        public RefererRedirectionAuthenticationSuccessHandler() {
-//            super();
-//            setUseReferer(true);
-//        }
-//
-//    }
 }
