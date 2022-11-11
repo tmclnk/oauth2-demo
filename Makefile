@@ -6,6 +6,9 @@ help: ## Print Help
 clean: ## Clean
 	./mvnw clean
 
+release: ##
+	./mvnw release:prepare -Ddry-run
+
 start-client : clean ## Start Client App
 	./mvnw -pl ce-client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
 
