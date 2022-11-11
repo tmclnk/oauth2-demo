@@ -1,5 +1,0 @@
-logging:
-  level:
-    root: INFO
-
-# Be sure to define spring.security.oauth2.resourceserver.jwt.issuer-uri
