@@ -9,6 +9,8 @@ clean: ## Clean
 prepare: ## Prepare a Release
 	./mvnw --batch-mode release:prepare
 
+package: ## Compile and Build JARs
+
 start-client : clean ## Start Client App
 	./mvnw -pl ce-client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
 
