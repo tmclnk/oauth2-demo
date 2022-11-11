@@ -6,7 +6,7 @@ help: ## Print Help
 clean: ## Clean
 	./mvnw clean
 
-prepare: ## Build and Tag a Release
+prepare: ## Prepare a Release
 	./mvnw --batch-mode release:prepare
 
 start-client : clean ## Start Client App
