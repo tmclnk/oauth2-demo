@@ -6,9 +6,8 @@ help: ## Print Help
 clean: ## Clean
 	./mvnw clean
 
-release: ## Build and Tag a Release
+prepare: ## Build and Tag a Release
 	./mvnw --batch-mode release:prepare
-	./mvnw release:perform
 
 start-client : clean ## Start Client App
 	./mvnw -pl ce-client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
