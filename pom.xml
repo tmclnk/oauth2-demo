@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.runpaste</groupId>
     <artifactId>ce-demos</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ce-demos</name>
     <description>ce-demos</description>
@@ -19,7 +19,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/tmclnk/ce-demos</developerConnection>
-      <tag>ce-demos-0.0.2</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencies>
