@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 /**
  * Presents a very basic login form which will post back to
  * the CloudEntity "accept" url and (eventually) redirect
@@ -40,6 +42,7 @@ public class LoginController {
         // login_state and login_id come from CloudEntity and need to be passed along,
         // so just stuff them into a bean
         var loginCommand = new LoginCommand();
+        loginCommand.setUsername(UUID.randomUUID().toString());
         loginCommand.setLoginState(loginState);
         loginCommand.setLoginId(loginId);
         model.addAttribute("loginCommand", loginCommand);
