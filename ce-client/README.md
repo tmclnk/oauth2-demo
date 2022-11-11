@@ -35,9 +35,18 @@ spring:
             provider: cloudentity
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
+
+            ## Which scopes are we, the client, asking for?
+            ## If we ask for permissions here that this client hasn't
+            ## been granted in the ACP, we will get an error before we
+            ## even redirect to the login page
             scope:
+              # Standard OAuth2 scopes
               - email
               - profile
+              # Scopes from our resource server, ce-rs-user-profile.
+              - userprofile.view
+              - userprofile.edit
         provider:
           cloudentity:
             user-info-authentication-method: form
