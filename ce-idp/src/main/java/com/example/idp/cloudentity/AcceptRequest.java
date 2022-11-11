@@ -20,9 +20,9 @@ class AcceptRequest {
     @JsonProperty("auth_time")
     private String authTime;
     @JsonProperty("subject")
-    private String subject;
+    private final String subject;
     @JsonProperty("login_state")
-    private String loginState;
+    private final String loginState;
 
     /**
      * Additional properties which go into the CloudEntity authentication context.
