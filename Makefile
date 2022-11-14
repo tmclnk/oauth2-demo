@@ -8,8 +8,9 @@ clean: ## Clean
 	rm -f release.properties
 	find . -name '*releaseBackup' -exec rm {} +
 
-prepare: ## Prepare a Release
+release: ## Prepare a Release to Github and M2
 	./mvnw --batch-mode release:prepare
+	./mvnw release:perform
 
 package: ## Compile and Build JARs
 	./mvnw package
