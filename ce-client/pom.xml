@@ -6,7 +6,7 @@
         <artifactId>ce-demos</artifactId>
         <version>0.0.8-SNAPSHOT</version>
     </parent>
-    <groupId>com.example</groupId>
+    <groupId>com.runpaste</groupId>
     <artifactId>ce-client</artifactId>
     <version>0.0.8-SNAPSHOT</version>
     <name>ce-client</name>

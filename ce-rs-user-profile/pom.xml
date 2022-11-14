@@ -6,7 +6,7 @@
         <artifactId>ce-demos</artifactId>
         <version>0.0.8-SNAPSHOT</version>
     </parent>
-    <groupId>com.example</groupId>
+    <groupId>com.runpaste</groupId>
     <artifactId>ce-rs-user-profile</artifactId>
     <version>0.0.8-SNAPSHOT</version>
     <name>ce-rs-user-profile</name>
