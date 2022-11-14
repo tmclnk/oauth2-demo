@@ -25,7 +25,7 @@
     <distributionManagement>
         <repository>
             <id>ssh-repository</id>
-            <url>scpexe://idp.runpaste.com/repository</url>
+            <url>scpexe://idp.runpaste.com/home/tom/repository</url>
         </repository>
     </distributionManagement>
 
