@@ -5,7 +5,7 @@ help: ## Print Help
 
 clean: ## Clean
 	./mvnw clean
-	rm release.properties
+	rm -f release.properties
 	find . -name '*releaseBackup' -exec rm {} +
 
 prepare: ## Prepare a Release
