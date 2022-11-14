@@ -11,9 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 @Component
 @Slf4j
@@ -37,9 +34,7 @@ public class CloudEntityClient {
      * @return a redirect url (presumably to a consent screen)
      */
     public Mono<URI> accept(String subject, LoginCommand command) {
-        var accept = new AcceptRequest(subject, command.getLoginState());
-        // decorate with custom attributes
-        accept.getAuthenticationContext().putAll(userAttributeService.apply(command));
+        var request = new AcceptRequest(subject, command.getLoginState());
         var acceptURI = cloudEntityProperties.acceptURI(command.getLoginId());
         return webClient
                 .post()
@@ -47,7 +42,7 @@ public class CloudEntityClient {
                 .attributes(ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId(CLIENT_REGISTRATION_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(accept))
+                .body(BodyInserters.fromValue(request))
                 .retrieve()
                 .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(String.class).map(Exception::new))
                 .bodyToMono(AcceptResponse.class)
@@ -55,13 +50,15 @@ public class CloudEntityClient {
                 .map(URI::create);
     }
 
-    private Function<LoginCommand, Map<String, Object>> userAttributeService = loginCommand -> {
-        var map = new HashMap<String, Object>();
-        map.put("my_attribute", "HELLO WORLD!!!!!!!!!!!");
 
+    private void decorate(LoginCommand loginCommand, AcceptRequest acceptRequest) {
+        // put some fake CE AuthenticationContext attributes on to
+        // help us trace them through the system
+        var authenticationContext = acceptRequest.getAuthenticationContext();
+        authenticationContext.put("my_attribute", "HELLO WORLD!!!!!!!!!!!");
         for (int i = 0; i < 10; i++) {
-            map.put(String.format("my_attribute%d", i), String.format("i am my attribute %d", i));
+            authenticationContext.put(String.format("my_attribute%d", i), String.format("i am my attribute %d", i));
         }
-        return map;
-    };
+    }
+
 }
