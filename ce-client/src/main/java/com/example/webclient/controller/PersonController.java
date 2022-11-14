@@ -35,6 +35,9 @@ public class PersonController {
      */
     @GetMapping("/person/{id}")
     public Mono<? extends Map> getPerson(@RegisteredOAuth2AuthorizedClient("cloudentity") OAuth2AuthorizedClient authorizedClient, @PathVariable("id") String id) {
+        if (id == null || id.isBlank()) {
+            id = "1234";
+        }
         // It's probably best to not put this sort of thing directly in a Controller.
         var uri = UriComponentsBuilder.fromHttpUrl(userServiceProperties.getBaseUri())
                 .pathSegment("users", "{user-id}")
