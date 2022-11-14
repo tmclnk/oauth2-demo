@@ -10,6 +10,7 @@ clean: ## Clean
 
 prepare: ## Prepare a Release
 	./mvnw --batch-mode release:prepare
+	./mvnw release:perform
 
 package: ## Compile and Build JARs
 	./mvnw package
