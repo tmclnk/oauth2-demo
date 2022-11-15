@@ -12,6 +12,10 @@ release: ## Prepare a Release to Github and M2
 	./mvnw --batch-mode release:prepare
 	./mvnw release:perform
 
+.ONESHELL:
+install: ## Install Remotely
+	ssh idp.runpaste.com 'sudo bash -s' < install.sh
+
 package: ## Compile and Build JARs
 	./mvnw package
 
