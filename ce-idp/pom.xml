@@ -4,11 +4,11 @@
     <parent>
         <groupId>com.runpaste</groupId>
         <artifactId>ce-demos</artifactId>
-        <version>0.0.7-SNAPSHOT</version>
+        <version>0.0.9-SNAPSHOT</version>
     </parent>
-    <groupId>com.example</groupId>
+    <groupId>com.runpaste</groupId>
     <artifactId>ce-idp</artifactId>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>0.0.9-SNAPSHOT</version>
     <name>ce-idp</name>
     <description>CloudEntity non-OIDC IdP</description>
     <dependencies>
