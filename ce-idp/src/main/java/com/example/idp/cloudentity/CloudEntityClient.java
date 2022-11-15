@@ -58,7 +58,10 @@ public class CloudEntityClient {
         var authenticationContext = acceptRequest.getAuthenticationContext();
         authenticationContext.put("my_attribute", "HELLO WORLD!!!!!!!!!!!");
         for (int i = 0; i < 10; i++) {
-            authenticationContext.put(String.format("my_attribute%d", i), String.format("i am my attribute %d", i));
+            var key = String.format("my_attribute%d", i);
+            var value = String.format("i am my attribute %d", i);
+            log.info("Placing {}='{}'", key, value);
+            authenticationContext.put(key, value);
         }
     }
 
