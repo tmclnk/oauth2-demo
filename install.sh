@@ -4,7 +4,7 @@
 
 set -e 
 
-version=0.0.8
+version=0.0.10
 
 for dir in /opt/ce-*; do
 	app=$(basename "$dir")
@@ -14,7 +14,7 @@ for dir in /opt/ce-*; do
 		ln -s "$file" "/opt/$app/app.jar"
 		echo "Created /opt/$app/app.jar"
 		systemctl daemon-reload
-		for f in /etc/systemd/system/*-ce-client.service; do
+		for f in /etc/systemd/system/*-$app.service; do
 			svc=$(basename "$f" | sed 's/\.service$//')
 			>&2 echo "Restarting $svc"
 			systemctl restart "$svc"
