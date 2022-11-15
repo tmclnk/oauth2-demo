@@ -36,6 +36,7 @@ public class CloudEntityClient {
     public Mono<URI> accept(String subject, LoginCommand command) {
         var request = new AcceptRequest(subject, command.getLoginState());
         var acceptURI = cloudEntityProperties.acceptURI(command.getLoginId());
+        decorate(command, request);
         return webClient
                 .post()
                 .uri(acceptURI)
