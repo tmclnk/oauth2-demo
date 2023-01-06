@@ -37,7 +37,7 @@ public class OAuthController {
     @GetMapping("/")
     public void index(ServerHttpResponse response) {
         response.setStatusCode(HttpStatus.FOUND);
-        response.getHeaders().setLocation(URI.create("/person/1234"));  // TODO don't do this
+        response.getHeaders().setLocation(URI.create("/token"));  // TODO don't do this
     }
 
 }
