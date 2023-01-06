@@ -34,7 +34,7 @@ public class PersonController {
      * and slightly munges the result.
      */
     @GetMapping("/person/{id}")
-    public Mono<? extends Map> getPerson(@RegisteredOAuth2AuthorizedClient("cloudentity") OAuth2AuthorizedClient authorizedClient, @PathVariable("id") String id) {
+    public Mono<? extends Map> getPerson(@RegisteredOAuth2AuthorizedClient("myidp") OAuth2AuthorizedClient authorizedClient, @PathVariable("id") String id) {
         if (id == null || id.isBlank()) {
             id = "1234"; // TODO take out this error-reducing hack
         }
