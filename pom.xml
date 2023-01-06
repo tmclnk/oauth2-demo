@@ -20,7 +20,7 @@
 
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/tmclnk/ce-demos.git</developerConnection>
-        <tag>ce-demos-0.0.4-SNAPSHOT</tag>
+        <tag>${version}</tag>
     </scm>
     <distributionManagement>
         <repository>
