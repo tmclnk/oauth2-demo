@@ -19,10 +19,7 @@ package: ## Compile and Build JARs
 	./mvnw package
 
 start-client : clean ## Start Client App
-	./mvnw -pl ce-client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
-
-start-idp: clean ## Start IdP
-	./mvnw -pl ce-idp spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
+	./mvnw -pl client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
 
 start-rs-user-profile: clean ## Start User Profile Service
-	./mvnw -pl ce-rs-user-profile spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
+	./mvnw -pl rs spring-boot:run -Dspring-boot.run.jvmArguments="-ea"

@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.runpaste</groupId>
-        <artifactId>ce-demos</artifactId>
-        <version>0.0.14-SNAPSHOT</version>
+        <artifactId>impersonator-5000</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.runpaste</groupId>
-    <artifactId>ce-rs-user-profile</artifactId>
-    <version>0.0.14-SNAPSHOT</version>
-    <name>ce-rs-user-profile</name>
-    <description>ce-rs-user-profile</description>
+    <artifactId>rs</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>rs</name>
+    <description>Impersonator 5000 Resource Server</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
