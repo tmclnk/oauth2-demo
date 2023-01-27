@@ -7,33 +7,34 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @Slf4j
 public class UserController {
 
     @GetMapping("/users/{id}")
-    public User get(@PathVariable Long id, Authentication auth) {
+    public Mono<User> get(@PathVariable Long id, Authentication auth) {
         auth.getAuthorities().stream().forEach(a -> log.info("{}", a.getAuthority()));
         var person = new User();
         person.setId(id);
-        return person;
+        return Mono.just(person);
     }
 
     @PreAuthorize("hasAuthority('SCOPE_profile')")
     @GetMapping("/secure/users/{id}")
-    public User secureGet(@PathVariable Long id) {
+    public Mono<User> secureGet(@PathVariable Long id) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         var person = new User();
         person.setId(id);
         person.setFirstName("322");
-        return person;
+        return Mono.just(person);
     }
 
     @GetMapping("/jwt")
-    public Authentication jwt() {
+    public Mono<Authentication> jwt() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth;
+        return Mono.just(auth);
     }
 
 }

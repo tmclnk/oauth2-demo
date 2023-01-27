@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 
 @SpringBootApplication
 @EnableWebFluxSecurity
-@EnableConfigurationProperties(UserServiceProperties.class)
 public class ClientApplication {
 
     public static void main(String[] args) {

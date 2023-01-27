@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserProfileResourceApplication {
+public class ImpersonationResourceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserProfileResourceApplication.class, args);
+        SpringApplication.run(ImpersonationResourceApplication.class, args);
     }
 
 }
