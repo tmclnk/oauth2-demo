@@ -2,21 +2,21 @@ package com.example.rs.impersonation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -45,7 +45,6 @@ public class ImpersonationController {
                 .map(SecurityContext::getAuthentication)
                 .map(Authentication::getName)
                 .doOnError(Throwable::printStackTrace)
-                .doOnSuccess(s -> System.out.println("completed without value: " + s))
                 .flatMap(principal -> {
                     var username = impersonationService.getImpersonation(principal);
                     if (username != null) {
@@ -56,22 +55,4 @@ public class ImpersonationController {
                 });
     }
 
-    @GetMapping("/webhook")
-    public Mono<WebhookPayload> webhook() {
-        return ReactiveSecurityContextHolder.getContext()
-                .switchIfEmpty(Mono.error(new IllegalStateException("ReactiveSecurityContext is empty")))
-                .map(SecurityContext::getAuthentication)
-                .map(Authentication::getName)
-                .doOnError(Throwable::printStackTrace)
-                .doOnSuccess(s -> System.out.println("completed without value: " + s))
-                .flatMap(principal -> {
-                    var username = impersonationService.getImpersonation(principal);
-                    if(username != null) {
-                        return Mono.just(new WebhookPayload(new WebhookPayload.Command("com.okta.identity.patch",
-                                new WebhookPayload.Value("add", "/claims/impersonate", username))));
-                    } else {
-                        return Mono.just(new WebhookPayload());
-                    }
-                });
-    }
 }
