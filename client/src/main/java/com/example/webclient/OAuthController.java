@@ -1,6 +1,9 @@
 package com.example.webclient;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 /**
@@ -19,31 +24,15 @@ import java.util.Map;
 public class OAuthController {
 
     @GetMapping(value = "/")
-    public Mono<String> hello(@AuthenticationPrincipal OidcUser principal) {
-        var token = principal.getIdToken();
-        var sub = token.getSubject();
-        var impersonate = token.getClaim("impersonate");
-        return Mono.just(String.format("Hello %s, I see you are impersonating %s", sub, impersonate));
+    public Mono<Void> hello(@AuthenticationPrincipal OidcUser principal, ServerHttpResponse response) throws URISyntaxException {
+    response.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
+        response.getHeaders().setLocation(new URI("/impersonation"));
+        return Mono.empty();
     }
 
 
-    @GetMapping(value = "/id", produces = "application/text")
+    @GetMapping(value = "/token", produces = "text/plain")
     public Mono<String> getRawToken(@AuthenticationPrincipal OidcUser principal) {
         return Mono.just(principal.getIdToken().getTokenValue());
-    }
-    @GetMapping(value = "/id", produces = "application/json")
-    public Mono<Map> getJsonToken(@AuthenticationPrincipal OidcUser principal) {
-        return Mono.just(principal.getAttributes());
-    }
-
-    @GetMapping("/token")
-    public Mono<OAuth2AuthenticationToken> getToken(OAuth2AuthenticationToken token) {
-    token.getPrincipal().getAttributes();
-        return Mono.just(token);
-    }
-
-    @GetMapping("/oauth2user")
-    public Mono<OAuth2User> index(@AuthenticationPrincipal OAuth2User principal) {
-        return Mono.just(principal);
     }
 }

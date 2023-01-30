@@ -1,5 +1,6 @@
 package com.example.rs.impersonation;
 
+import com.example.model.Impersonation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -8,18 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Slf4j
-class ImpersonationService {
-    private final Map<String, String> map = new ConcurrentHashMap<>();
+public class ImpersonationService {
+    private final Map<String, Impersonation> map = new ConcurrentHashMap<>();
 
-    void prepareImpersonation(String principal, String username) {
-        map.put(principal, username);
+    void prepareImpersonation(String subject, String username) {
+        map.put(subject, new Impersonation(subject, username));
     }
 
-    String getImpersonation(String principal) {
-        return map.get(principal);
-    }
-
-    void clearImpersonation(String principal) {
-        map.remove(principal);
+    public Impersonation getImpersonation(String subject) {
+        return map.get(subject);
     }
 }

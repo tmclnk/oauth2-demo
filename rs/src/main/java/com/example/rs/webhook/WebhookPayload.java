@@ -1,4 +1,4 @@
-package com.example.rs.impersonation;
+package com.example.rs.webhook;
 
 
 import java.util.Arrays;
@@ -10,7 +10,7 @@ public class WebhookPayload {
     }
 
     public static final class Command {
-        public Command(String type, Value value) {
+        public Command(String type, Value... value) {
             this.type = type;
             this.value = Arrays.asList(value);
         }

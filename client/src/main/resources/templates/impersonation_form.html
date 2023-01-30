@@ -1,0 +1,50 @@
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>IMPERSONATOR 5000</h1>
+    </div>
+
+    <div th:unless="${impersonation.subject == null}">
+        <div th:text=" 'Subject ID is ' + ${impersonation.subject}"></div>
+    </div>
+    <div th:unless="${impersonation.target == null}">
+        <div th:text=" 'Impersonating ' + ${impersonation.target}"></div>
+    </div>
+    <form th:action="@{/impersonation}" th:object="${impersonation}" method="post">
+        <div class="row">
+            <div class="form-group">
+                <label for="target" class="form-label">Username</label>
+                <input id="target" type="text" th:field="*{target}" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary"/>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-12">
+            <p class="float-end">
+                <a href="/token">View Token</a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p class="float-end">
+                <a href="/logout">Logout</a>
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
