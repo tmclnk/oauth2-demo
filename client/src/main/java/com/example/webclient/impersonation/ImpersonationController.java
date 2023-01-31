@@ -48,12 +48,16 @@ public class ImpersonationController {
         return webClient.get().uri(properties.getImpersonationUrl())
                 .attributes(oauth2AuthorizedClient(client))
                 .retrieve()
+                .onStatus(HttpStatus::isError, clientResponse -> {
+                    log.info("Status Code {}", clientResponse.rawStatusCode());
+                    return clientResponse.bodyToMono(Exception.class).map(Exception::new);
+                })
                 .bodyToMono(Impersonation.class)
-                .onErrorReturn(new Impersonation())
-                .flatMap(imp -> {
-                    model.addAttribute("impersonation", imp);
-                    return Mono.just("impersonation_form.html");
-                });
+                .defaultIfEmpty(new Impersonation())
+                .doOnSuccess(i -> {
+                    model.addAttribute("impersonation", i);
+                    log.info("Saved impersonation {} -> {}", i.getSubject(), i.getAgilityUsername());
+                }).flatMap(i -> Mono.just("impersonation_form.html"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -75,6 +79,6 @@ public class ImpersonationController {
                 .doOnSuccess(i -> {
                     model.addAttribute("impersonation", i);
                     log.info("Saved impersonation {}", i);
-                }).then(Mono.just("impersonation_form.html"));
+                }).flatMap(i -> Mono.just("impersonation_form.html"));
     }
 }
