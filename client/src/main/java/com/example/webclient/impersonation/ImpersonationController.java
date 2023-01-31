@@ -56,7 +56,7 @@ public class ImpersonationController {
                 .defaultIfEmpty(new Impersonation())
                 .doOnSuccess(i -> {
                     model.addAttribute("impersonation", i);
-                    log.info("Saved impersonation {} -> {}", i.getSubject(), i.getAgilityUsername());
+                    log.info("Retreving impersonation {} -> {}", i.getSubject(), i.getAgilityUsername());
                 }).flatMap(i -> Mono.just("impersonation_form.html"));
     }
 
