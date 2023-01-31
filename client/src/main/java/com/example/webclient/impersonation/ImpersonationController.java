@@ -2,7 +2,9 @@ package com.example.webclient.impersonation;
 
 import com.example.model.Impersonation;
 import com.example.webclient.ApplicationProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,11 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
 import static org.springframework.web.util.UriComponentsBuilder.*;
@@ -39,20 +37,30 @@ public class ImpersonationController {
 
     @GetMapping
 
-    public Mono<String> onGet(Model model, @AuthenticationPrincipal OidcUser principal) {
+    public Mono<String> onGet(Model model, @AuthenticationPrincipal OidcUser principal, @RegisteredOAuth2AuthorizedClient("myidp") OAuth2AuthorizedClient client) {
         var token = principal.getIdToken();
-//        model.addAttribute("subject", token.getSubject());
+        log.info("Id Token subject that we're not using: {}", token.getSubject());
 
-        var impersonation = new Impersonation(token.getSubject(), token.getClaimAsString("impersonate"));
-        model.addAttribute("impersonation", impersonation);
-        return Mono.just("impersonation_form.html");
+        // We hardcoded the 'sub' claim in the access token to 'bstan'.
+        // Don't let this continue. But for now, don't directly
+        // use attributes from the ID Token. Instead, rely on
+        // what the remote side returns to us.
+        return webClient.get().uri(properties.getImpersonationUrl())
+                .attributes(oauth2AuthorizedClient(client))
+                .retrieve()
+                .bodyToMono(Impersonation.class)
+                .onErrorReturn(new Impersonation())
+                .flatMap(imp -> {
+                    model.addAttribute("impersonation", imp);
+                    return Mono.just("impersonation_form.html");
+                });
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Mono<? extends String> onPost(Model model, Impersonation impersonationModel, @RegisteredOAuth2AuthorizedClient("myidp") OAuth2AuthorizedClient client) {
         var uri = fromHttpUrl(properties.getImpersonationUrl())
                 .pathSegment("{username}")
-                .buildAndExpand(impersonationModel.getTarget())
+                .buildAndExpand(impersonationModel.getAgilityUsername())
                 .toUri();
 
         return webClient.put()
@@ -68,7 +76,5 @@ public class ImpersonationController {
                     model.addAttribute("impersonation", i);
                     log.info("Saved impersonation {}", i);
                 }).then(Mono.just("impersonation_form.html"));
-
-
     }
 }

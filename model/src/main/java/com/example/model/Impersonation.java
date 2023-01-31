@@ -9,10 +9,22 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Impersonation {
     private String subject;
-    private String target;
-    public Impersonation(String subject, String target) {
+
+    private String agilityUsername;
+    public Impersonation(String subject, String agilityUsername) {
         this.subject = subject;
-        this.target = target;
+        this.agilityUsername = agilityUsername;
     }
 
+    /** use #getAgilityUsername */
+    @Deprecated
+    public String getTarget() {
+        return agilityUsername;
+    }
+
+    /** use #setAgilityUsername */
+    @Deprecated
+    public void setTarget(String target) {
+        this.agilityUsername = target;
+    }
 }

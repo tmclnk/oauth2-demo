@@ -12,39 +12,40 @@
         <h1>IMPERSONATOR 5000</h1>
     </div>
 
-    <div th:unless="${impersonation.subject == null}">
-        <div th:text=" 'Subject ID is ' + ${impersonation.subject}"></div>
-    </div>
-    <div th:unless="${impersonation.target == null}">
-        <div th:text=" 'Impersonating ' + ${impersonation.target}"></div>
-    </div>
-    <form th:action="@{/impersonation}" th:object="${impersonation}" method="post">
+    <div class="container">
         <div class="row">
-            <div class="form-group">
-                <label for="target" class="form-label">Username</label>
-                <input id="target" type="text" th:field="*{target}" class="form-control">
+            <div class="col form-floating" th:unless="${impersonation.subject == null}">
+                <input id="impersonation-sub-claim" type="text" th:value="${impersonation.subject}" class="form-control"
+                       disabled>
+                <label for="impersonation-sub-claim">Current Subject</label>
+            </div>
+            <div class="col form-floating" th:unless="${impersonation.agilityUsername == null}">
+                <input id="impersonation-username" type="text" th:value="${impersonation.agilityUsername}"
+                       class="form-control" disabled>
+                <label for="impersonation-username">Currently Impersonating</label>
             </div>
         </div>
+        <form th:action="@{/impersonation}" th:object="${impersonation}" method="post">
+            <div class="row">
+                <div class="form-floating col">
+                    <input id="agilityUsername" type="text" th:field="*{agilityUsername}" class="form-control">
+                    <label for="agilityUsername">Agility Username to Impersonate</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
         <div class="row">
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary"/>
+            <div class="col">
+                <p class="float-end">
+                    <a href="/token">View Token</a>
+                    <a href="/logout">Logout</a>
+                </p>
             </div>
         </div>
-    </form>
-    <div class="row">
-        <div class="col-12">
-            <p class="float-end">
-                <a href="/token">View Token</a>
-            </p>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <p class="float-end">
-                <a href="/logout">Logout</a>
-            </p>
-        </div>
-    </div>
-</div>
 </div>
 </body>
