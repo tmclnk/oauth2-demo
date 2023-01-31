@@ -14,13 +14,13 @@
 
     <div class="container">
         <div class="row">
-            <div class="col form-floating" th:unless="${impersonation.subject == null}">
-                <input id="impersonation-sub-claim" type="text" th:value="${impersonation.subject}" class="form-control"
+            <div class="col form-floating" th:unless="${impersonation?.subject == null}">
+                <input id="impersonation-sub-claim" type="text" th:value="${impersonation?.subject}" class="form-control"
                        disabled>
                 <label for="impersonation-sub-claim">Current Subject</label>
             </div>
-            <div class="col form-floating" th:unless="${impersonation.agilityUsername == null}">
-                <input id="impersonation-username" type="text" th:value="${impersonation.agilityUsername}"
+            <div class="col form-floating" th:unless="${impersonation?.agilityUsername == null}">
+                <input id="impersonation-username" type="text" th:value="${impersonation?.agilityUsername}"
                        class="form-control" disabled>
                 <label for="impersonation-username">Currently Impersonating</label>
             </div>
