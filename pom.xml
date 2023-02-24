@@ -8,7 +8,7 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.runpaste</groupId>
-    <artifactId>impersonator-5000</artifactId>
+    <artifactId>oauth2-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>impersonator-5000</name>

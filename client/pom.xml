@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.runpaste</groupId>
-        <artifactId>impersonator-5000</artifactId>
+        <artifactId>oauth2-demo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.runpaste</groupId>
     <artifactId>client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>client</name>
-    <description>Impersonator 5000 Client App</description>
+    <description>OAuth2 Client App</description>
 
     <dependencies>
         <dependency>
