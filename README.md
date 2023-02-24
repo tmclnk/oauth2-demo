@@ -11,6 +11,8 @@ You'll need jdk11.
 
 ## Running
 
+### Linux/MacOS
+
 ```shell
 ./mvnw -pl rs spring-boot:run
 ```
@@ -18,6 +20,17 @@ You'll need jdk11.
 ```shell
 ./mvnw -pl client spring-boot:run
 ```
+
+### Windows
+
+```shell
+mvnw.bat -pl rs spring-boot:run
+```
+
+```shell
+mvnw.bat -pl client spring-boot:run
+```
+
 
 ## Configuration
 
