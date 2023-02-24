@@ -1,0 +1,35 @@
+server.port: 9600
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          myidp:
+            client-id: # TODO fill in client-id
+            client-secret: # TODO fill in client-secret
+            provider: okta
+            ## Which scopes are we, the client, asking for?
+            ## If we ask for permissions here that this client hasn't
+            ## been granted in the ACP, we will get an error before we
+            scope:
+              ## Standard OAuth2 scopes
+              - openid
+              - email
+        provider:
+          okta:
+            issuer-uri: ## TODO fill in issuer-uri
+logging:
+  level:
+    root: INFO
+    com.example: INFO
+    org.springframework.web.client: INFO
+    reactor.netty.http.client: INFO
+server:
+  forward-headers-strategy: native
+  error:
+    include-message: always
+    include-exception: true
+    include-stacktrace: always
+    include-binding-errors: always
+demo:
+  resource-url: http://localhost:8200

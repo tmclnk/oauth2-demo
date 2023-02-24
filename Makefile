@@ -12,14 +12,11 @@ release: ## Prepare a Release to Github and M2
 	./mvnw --batch-mode release:prepare
 	./mvnw release:perform
 
-install: ## Install Remotely
-	ssh idp.runpaste.com 'sudo bash -s' < install.sh
-
 package: ## Compile and Build JARs
 	./mvnw package
 
 start-client : clean ## Start Client App
 	./mvnw -pl client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
 
-start-rs-user-profile: clean ## Start User Profile Service
+start-rs: clean ## Start User Profile Service
 	./mvnw -pl rs spring-boot:run -Dspring-boot.run.jvmArguments="-ea"

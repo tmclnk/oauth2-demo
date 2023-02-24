@@ -7,13 +7,13 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 
-@ConfigurationProperties(prefix = "ip5k")
+@ConfigurationProperties(prefix = "demo")
 @Getter
 @Setter
 @Validated
 public class ApplicationProperties {
 
     @NotBlank
-    private String impersonationUrl;
+    private String resourceUrl;
 
 }

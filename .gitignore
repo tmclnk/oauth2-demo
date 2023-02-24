@@ -38,6 +38,7 @@ build/
 .vscode/
 
 ### Spring Boot Properties ###
+application.properties
 application-*.properties
-application*.yaml
-application*.yml
+application-*.yaml
+application-*.yml

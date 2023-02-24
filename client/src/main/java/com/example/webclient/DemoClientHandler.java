@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
@@ -39,7 +38,7 @@ public class DemoClientHandler {
 
     public Mono<Map> onGet(@AuthenticationPrincipal OidcUser principal, @RegisteredOAuth2AuthorizedClient("myidp") OAuth2AuthorizedClient client) {
     long start = System.currentTimeMillis();
-        return webClient.get().uri(properties.getImpersonationUrl())
+        return webClient.get().uri(properties.getResourceUrl())
                 .attributes(oauth2AuthorizedClient(client))
                 .retrieve()
                 .onStatus(HttpStatus::isError, clientResponse -> {
