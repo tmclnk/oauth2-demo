@@ -31,6 +31,33 @@ mvnw.bat -pl rs spring-boot:run
 mvnw.bat -pl client spring-boot:run
 ```
 
+## How It Works
+
+
+
+```plantuml
+@startuml
+Browser -> Client: GET
+Browser <-- Client: 302 to IdP
+
+Browser -> Browser: Go Log In
+
+Browser -> AS: Request authorization code
+Browser<-- AS: Code
+
+Browser -> AS: Code
+Browser <-- AS: ID Token, Access Token
+
+Browser -> Client: Id Token, Access Token
+
+Client -> RS: Access Token
+Client <-- RS: Echo Raw Access Token Value
+
+Browser <-- Client: JSON
+
+@enduml
+
+```
 
 ## Configuration
 
@@ -38,6 +65,11 @@ There are two application.yaml files. You'll need to fill in the `TODO` values f
 
 - [rs](rs/src/main/resources/application.yaml)
 - [client](client/src/main/resources/application.yaml)
+
+The configuration assumes that you are using the OIDC Authorization
+Code grant flow to obtain your token. You'll need a client-id and
+client-secret. You might be able to get away without a client-secret
+using PKCE (I haven't tried it).
 
 ## Related Links
 
