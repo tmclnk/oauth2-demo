@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.runpaste</groupId>
     <artifactId>oauth2-demo</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>oauth2-demo</name>
     <description>OAuth2 Timing Demo</description>
@@ -20,7 +20,7 @@
 
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/tmclnk/oauth2-demo.git</developerConnection>
-      <tag>oauth2-demo-0.0.1</tag>
+      <tag>HEAD</tag>
   </scm>
     <distributionManagement>
         <repository>
