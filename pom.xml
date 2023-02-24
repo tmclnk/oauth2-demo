@@ -19,7 +19,7 @@
     </properties>
 
     <scm>
-        <developerConnection>scm:git:ssh://git@github.com/tmclnk/impersonator-5000.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/tmclnk/oauth2-demo.git</developerConnection>
       <tag>HEAD</tag>
   </scm>
     <distributionManagement>
