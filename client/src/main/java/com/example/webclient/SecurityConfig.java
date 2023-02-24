@@ -13,7 +13,11 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.netty.http.client.HttpClient;
+
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
 public class SecurityConfig {
