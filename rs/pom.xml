@@ -4,11 +4,11 @@
     <parent>
         <groupId>com.runpaste</groupId>
         <artifactId>oauth2-demo</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <groupId>com.runpaste</groupId>
     <artifactId>rs</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>rs</name>
     <description>OAuth2 Resource Server</description>
     <dependencies>
