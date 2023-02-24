@@ -12,7 +12,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>oauth2-demo</name>
-    <description>Webhook for OAuth Impersonation Claim Webhooks</description>
+    <description>OAuth2 Timing Demo</description>
     <properties>
         <java.version>17</java.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
