@@ -18,5 +18,5 @@ package: ## Compile and Build JARs
 start-client : clean ## Start Client App
 	./mvnw -pl client spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
 
-start-rs: clean ## Start User Profile Service
+start-server: clean ## Start Resource Server
 	./mvnw -pl rs spring-boot:run -Dspring-boot.run.jvmArguments="-ea"
