@@ -77,7 +77,6 @@
     <modules>
         <module>client</module>
         <module>rs</module>
-        <module>model</module>
     </modules>
 
 </project>
