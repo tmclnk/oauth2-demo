@@ -1,9 +1,12 @@
 # OAuth2 Timing Demo
 
-This project includes a single maven repository with two applications
+This project includes a single maven repository with two spring-boot
+applications
 
 - client
 - rs (resource server)
+
+Both apps use the Spring Boot reactive web style (webflux).
 
 ### Requirements
 
